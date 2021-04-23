@@ -16,15 +16,15 @@ namespace BJ_Edit
             StreamReader misc = new StreamReader(MiscPath);
 
             while ((line = misc.ReadLine()) != null)
-            {
                 if (line.Trim() == "[HERO]")
                 {
                     line = misc.ReadLine().Trim();
                     string s = line.Substring(line.IndexOf("DependencyOr=")+13);
                     hero = s.Split(',');
+
                     break;
                 }
-            }
+
             misc.Close();
         }
     }

@@ -23,26 +23,37 @@ namespace BJ_Edit
         public Bj_structure_original(string bj_orgPath)
         {
             string line;
-            StreamReader bj_org = new StreamReader(bj_orgPath);
+            StreamReader bj_org = null;
+
+            try
+            {
+                bj_org = new StreamReader(bj_orgPath);
+            } catch
+            {
+                MessageBox.Show("Поместите Blizzard.j в папку Original.", "Ошибка");
+                Environment.Exit(1);
+            }
+
             while ((line = bj_org.ReadLine()) != null)
             {
-
-                //===========读取声明===========
                 if (line.Trim() == "globals")
                 {
                     int i = 0;
+
                     while ((line = bj_org.ReadLine()) != "endglobals")
                     {
                         string temps = line.Trim();
+
                         if (temps.Length != 0 && temps.IndexOf("//") != 0)
                         {
                             this.Global_org.Add(line);
                             i++;
                         }
                     }
+
                     this.GlobalCount_org = i;
                 }
-                //===========读取函数===========
+
                 if (line.IndexOf("function") == 0)
                 {
                     this.FunctionCount_org++;
@@ -50,19 +61,18 @@ namespace BJ_Edit
                     function f = new function();
                     f.name = line.Substring(8, line.IndexOf(" takes") - 8);
                     f.content = f.content + (line + System.Environment.NewLine);
+
                     while ((line = bj_org.ReadLine()) != "endfunction")
-                    {
                         f.content = f.content + (line + System.Environment.NewLine);
-                    }
+
                     f.content = f.content + (line + System.Environment.NewLine);
 
                     this.Function_org.Add(f);
                 }
 
             }
+
             bj_org.Close();
         }
-
-
     }
 }

@@ -25,24 +25,21 @@ namespace BJ_Edit
             StreamReader wts = new StreamReader(wtsPath);
 
             while ((line = wts.ReadLine()) != null)
-            {
                 if (line.IndexOf("STRING ") != -1)
                 {
                     wtsS w= new wtsS();
                     w.S=line.Substring(7).Trim();
                     w.S = "TRIGSTR_" + w.S.PadLeft(3, '0');
 
-                    if (wts.ReadLine().IndexOf("//") == 0)  //下移一行
+                    if (wts.ReadLine().IndexOf("//") == 0)
                         continue;
 
                     while ((line = wts.ReadLine()).Trim() != "}")
-                    {
                         w.TrigS += line + Environment.NewLine;
-                    }
+
                     w.TrigS = w.TrigS.Trim();
                     TrigStr.Add(w);
                 }
-            }
 
             wts.Close();
         }
